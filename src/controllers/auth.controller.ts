@@ -6,9 +6,12 @@ import { Usuario } from 'src/entities/usuario.entity';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly usuarioService: UsuarioService) {}
+  
+  constructor(
+    private readonly usuarioService: UsuarioService
+  ) {}
 
-  @Post('login')
+  @Post('')
   @HttpCode(200)
   async login(@Body() loginDto: LoginDto) {
     const usuario = await this.usuarioService.login(loginDto);
