@@ -5,6 +5,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Usuario } from './entities/usuario.entity';
 import { AuthController } from './controllers/auth.controller';
 import { UsuarioService } from './services/usuario.service';
+import { Lista } from './entities/lista.entity';
+import { Participante } from './entities/participante.entity';
+import { ListaController } from './controllers/lista.controller';
+import { ListaService } from './services/lista.service';
 
 @Module({
   imports: [
@@ -18,7 +22,9 @@ import { UsuarioService } from './services/usuario.service';
       password: "axlrby216",
       database: "safelist",
       entities: [
-        Usuario
+        Usuario,
+        Lista,
+        Participante
       ],
       synchronize: true
     })
@@ -26,10 +32,12 @@ import { UsuarioService } from './services/usuario.service';
   controllers: [
     AppController,
     AuthController,
+    ListaController
   ],
   providers: [
     AppService,
     UsuarioService,
+    ListaService
   ],
 })
 export class AppModule {}
