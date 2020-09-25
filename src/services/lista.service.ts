@@ -10,8 +10,16 @@ export class ListaService{
         return await getRepository(Lista).save(lista);
     }
 
+    async get(id:number):Promise<Lista>{
+        return await getRepository(Lista).createQueryBuilder('lista')
+        .leftJoinAndSelect("lista.participantes", "participantes")
+        .where(`lista.id = ${id}`)
+        .getOne();
+    }
+
     async getAll():Promise<Array<Lista>>{
         return await getRepository(Lista).createQueryBuilder('lista')
+        .leftJoinAndSelect("lista.participantes", "participantes")
         .getMany();
     }
 
