@@ -1,6 +1,7 @@
-import { Controller, Get, Post, Body, HttpException, HttpStatus, HttpCode, Query, Param } from '@nestjs/common';
+import { Controller, Get, Post, Body, HttpException, HttpStatus, HttpCode, Query, Param, Put } from '@nestjs/common';
 import { ListaService } from 'src/services/lista.service';
 import { Lista } from 'src/entities/lista.entity';
+import { Participante } from 'src/entities/participante.entity';
 
 @Controller('listas')
 export class ListaController {
@@ -11,8 +12,20 @@ export class ListaController {
 
   @Post('')
   @HttpCode(200)
-  async login(@Body() lista: Lista) {
+  async insert(@Body() lista: Lista) {
     return await this.listaService.save(lista);
+  }
+
+  @Put('')
+  @HttpCode(200)
+  async update(@Body() lista: Lista) {
+    return await this.listaService.save(lista);
+  }
+
+  @Put('participante')
+  @HttpCode(200)
+  async addParticipante(@Body() addParticipante: {lista: Lista, participante:Participante}) {
+    return await this.listaService.addParticipante(addParticipante.lista, addParticipante.participante);
   }
 
   @Get('')

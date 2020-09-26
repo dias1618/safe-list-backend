@@ -1,5 +1,6 @@
-import { Connection, getRepository } from "typeorm";
+import { Connection, getRepository, getConnection } from "typeorm";
 import { Lista } from "src/entities/lista.entity";
+import { Participante } from "src/entities/participante.entity";
 
 export class ListaService{
 
@@ -13,6 +14,7 @@ export class ListaService{
     async get(id:number):Promise<Lista>{
         return await getRepository(Lista).createQueryBuilder('lista')
         .leftJoinAndSelect("lista.participantes", "participantes")
+        .leftJoinAndSelect("participantes.dependentes", "dependentes")
         .where(`lista.id = ${id}`)
         .getOne();
     }
@@ -21,6 +23,13 @@ export class ListaService{
         return await getRepository(Lista).createQueryBuilder('lista')
         .leftJoinAndSelect("lista.participantes", "participantes")
         .getMany();
+    }
+
+    async addParticipante(lista:Lista, participante:Participante){
+        await getConnection().createQueryBuilder()
+        .relation(Lista, "participantes")
+        .of(lista)
+        .add(participante);
     }
 
 }

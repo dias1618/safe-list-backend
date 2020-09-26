@@ -9,6 +9,8 @@ import { Lista } from './entities/lista.entity';
 import { Participante } from './entities/participante.entity';
 import { ListaController } from './controllers/lista.controller';
 import { ListaService } from './services/lista.service';
+import { ParticipanteController } from './controllers/participante.controller';
+import { ParticipanteService } from './services/participante.service';
 
 @Module({
   imports: [
@@ -32,12 +34,14 @@ import { ListaService } from './services/lista.service';
   controllers: [
     AppController,
     AuthController,
-    ListaController
+    ListaController,
+    ParticipanteController,
   ],
   providers: [
     AppService,
     UsuarioService,
-    ListaService
+    ListaService,
+    ParticipanteService,
   ],
 })
 export class AppModule {}
