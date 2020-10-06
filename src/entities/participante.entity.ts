@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, ManyToOne, OneToMany } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, ManyToOne, OneToMany, ManyToMany, JoinTable } from "typeorm";
 import { Lista } from "./lista.entity";
+import { Cadeira } from "./cadeira.entity";
 
 @Entity()
 export class Participante extends BaseEntity{
@@ -28,6 +29,10 @@ export class Participante extends BaseEntity{
 
     @OneToMany(type=> Participante, participante => participante.responsavel)
     dependentes: Participante[];
+
+    @ManyToMany(type => Cadeira)
+    @JoinTable()
+    cadeiras: Cadeira[];
 
     toJson():string{
         return `{

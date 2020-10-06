@@ -11,6 +11,12 @@ import { ListaController } from './controllers/lista.controller';
 import { ListaService } from './services/lista.service';
 import { ParticipanteController } from './controllers/participante.controller';
 import { ParticipanteService } from './services/participante.service';
+import { Cadeira } from './entities/cadeira.entity';
+import { Banco } from './entities/banco.entity';
+import { BancoController } from './controllers/banco.controller';
+import { BancoService } from './services/banco.service';
+import { CadeiraController } from './controllers/cadeira.controller';
+import { CadeiraService } from './services/cadeira.service';
 
 @Module({
   imports: [
@@ -26,7 +32,9 @@ import { ParticipanteService } from './services/participante.service';
       entities: [
         Usuario,
         Lista,
-        Participante
+        Participante,
+        Cadeira,
+        Banco
       ],
       synchronize: true
     })
@@ -36,12 +44,16 @@ import { ParticipanteService } from './services/participante.service';
     AuthController,
     ListaController,
     ParticipanteController,
+    BancoController,
+    CadeiraController,
   ],
   providers: [
     AppService,
     UsuarioService,
     ListaService,
     ParticipanteService,
+    BancoService,
+    CadeiraService,
   ],
 })
 export class AppModule {}
