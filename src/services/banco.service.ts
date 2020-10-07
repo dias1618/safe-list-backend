@@ -11,6 +11,16 @@ export class BancoService{
         return await getRepository(Banco).save(banco);
     }
 
+    async saveMany(quantidade:number):Promise<void>{
+        
+        for(let posicao:number=1; posicao <= quantidade; posicao++){
+            let banco:Banco = new Banco();
+            banco.numero = posicao;
+            banco.maxCadeiras = 1;
+            await getRepository(Banco).save(banco);
+        }
+    }
+
     async get(id:number):Promise<Banco>{
         return await getRepository(Banco).createQueryBuilder('banco')
         .leftJoinAndSelect("banco.cadeiras", "cadeiras")

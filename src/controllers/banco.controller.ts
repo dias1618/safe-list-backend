@@ -10,6 +10,12 @@ export class BancoController {
     private readonly bancoService: BancoService
   ) {}
 
+  @Post('many')
+  @HttpCode(200)
+  async saveMany(@Body() saveMany: {quantidade:number}) {
+    return await this.bancoService.saveMany(saveMany.quantidade);
+  }
+
   @Post('')
   @HttpCode(200)
   async insert(@Body() banco: Banco) {
