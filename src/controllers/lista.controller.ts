@@ -30,8 +30,11 @@ export class ListaController {
 
   @Get('')
   @HttpCode(200)
-  async getAll() {
-    return await this.listaService.getAll();
+  async getByDate(@Query('date') date:string) {
+    console.log('date = ', date)
+    let ret = await this.listaService.getByDate(date);
+    console.log(ret);
+    return ret;
   }
 
   @Get(':id')

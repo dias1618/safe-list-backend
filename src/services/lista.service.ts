@@ -20,10 +20,29 @@ export class ListaService{
         .getOne();
     }
 
-    async getAll():Promise<Array<Lista>>{
+    async getByDate(date:string):Promise<Array<Lista>>{
         return await getRepository(Lista).createQueryBuilder('lista')
         .leftJoinAndSelect("lista.participantes", "participantes")
+        .where("lista.data BETWEEN :dataInicial AND :dataFinal", {dataInicial: this.getDataInicial(date), dataFinal: this.getDataFinal(date)})
         .getMany();
+    }
+
+    getDataInicial(date:string){
+        let data = new Date(date);
+        data.setHours(0);
+        data.setMinutes(0);
+        data.setSeconds(0);
+        data.setMilliseconds(0);
+        return data.toISOString();
+    }
+
+    getDataFinal(date:string){
+        let data = new Date(date);
+        data.setHours(24);
+        data.setMinutes(59);
+        data.setSeconds(59);
+        data.setMilliseconds(59);
+        return data.toISOString();
     }
 
     async addParticipante(lista:Lista, participante:Participante){
