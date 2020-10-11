@@ -1,5 +1,6 @@
 import { Connection, getRepository, getConnection } from "typeorm";
 import { Participante } from "src/entities/participante.entity";
+import { Cadeira } from "src/entities/cadeira.entity";
 
 export class ParticipanteService{
 
@@ -19,6 +20,7 @@ export class ParticipanteService{
     async get(id:number):Promise<Participante>{
         return await getRepository(Participante).createQueryBuilder('participante')
         .leftJoinAndSelect("participante.dependentes", "dependentes")
+        .leftJoinAndSelect("participante.cadeiras", "cadeiras")
         .where(`participante.id = ${id}`)
         .getOne();
     }
@@ -26,6 +28,7 @@ export class ParticipanteService{
     async getAll():Promise<Array<Participante>>{
         return await getRepository(Participante).createQueryBuilder('participante')
         .leftJoinAndSelect("participante.dependentes", "dependentes")
+        .leftJoinAndSelect("participante.cadeiras", "cadeiras")
         .getMany();
     }
 
@@ -34,6 +37,13 @@ export class ParticipanteService{
         .relation(Participante, "dependentes")
         .of(participante)
         .add(dependente);
+    }
+
+    async addCadeira(participante:Participante, cadeira:Cadeira){
+        await getConnection().createQueryBuilder()
+        .relation(Participante, "cadeiras")
+        .of(participante)
+        .add(cadeira);
     }
 
 }

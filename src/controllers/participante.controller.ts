@@ -1,6 +1,7 @@
 import { Controller, Get, Post, Body, HttpException, HttpStatus, HttpCode, Query, Param, Put, Delete } from '@nestjs/common';
 import { ParticipanteService } from 'src/services/participante.service';
 import { Participante } from 'src/entities/participante.entity';
+import { Cadeira } from 'src/entities/cadeira.entity';
 
 @Controller('participantes')
 export class ParticipanteController {
@@ -25,6 +26,12 @@ export class ParticipanteController {
   @HttpCode(200)
   async addDependente(@Body() addDependente: {participante: Participante, dependente:Participante}) {
     return await this.participanteService.addDependente(addDependente.participante, addDependente.dependente);
+  }
+
+  @Put('cadeira')
+  @HttpCode(200)
+  async addCadeira(@Body() addCadeira: {participante: Participante, cadeira:Cadeira}) {
+    return await this.participanteService.addCadeira(addCadeira.participante, addCadeira.cadeira);
   }
 
   @Get('')
