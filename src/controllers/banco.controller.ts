@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, HttpException, HttpStatus, HttpCode, Query, Param, Put } from '@nestjs/common';
+import { Controller, Get, Post, Body, HttpException, HttpStatus, HttpCode, Query, Param, Put, Delete } from '@nestjs/common';
 import { BancoService } from 'src/services/banco.service';
 import { Banco } from 'src/entities/banco.entity';
 import { Cadeira } from 'src/entities/cadeira.entity';
@@ -44,6 +44,18 @@ export class BancoController {
   @HttpCode(200)
   async addCadeira(@Body() addCadeira: {banco: Banco, cadeira:Cadeira}) {
     return await this.bancoService.addCadeira(addCadeira.banco, addCadeira.cadeira);
+  }
+
+  @Delete('')
+  @HttpCode(200)
+  async deleteAll() {
+    return await this.bancoService.removeAll();
+  }
+
+  @Delete(':id')
+  @HttpCode(200)
+  async delete(@Param('id') id:number) {
+    return await this.bancoService.remove(id);
   }
 
 }

@@ -7,8 +7,11 @@ export class Cadeira extends BaseEntity{
     @PrimaryGeneratedColumn()
     id:number;
 
+    @Column("character varying", {nullable: true})
+    identificacao:string;
+
     @Column("integer", {nullable: true})
-    numero:number;
+    situacao:number;
 
     @ManyToOne(type => Banco, banco => banco.cadeiras)
     banco: Banco;

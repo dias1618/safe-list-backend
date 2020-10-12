@@ -7,11 +7,14 @@ export class Banco extends BaseEntity{
     @PrimaryGeneratedColumn()
     id:number;
 
-    @Column("integer", {nullable: true})
-    numero:number;
+    @Column("character varying", {nullable: true})
+    identificacao:string;
 
     @Column("integer", {nullable: true})
     maxCadeiras:number;
+
+    @Column("integer", {nullable: true})
+    situacao:number;
 
     @OneToMany(type=> Cadeira, cadeira => cadeira.banco)
     cadeiras: Cadeira[];
