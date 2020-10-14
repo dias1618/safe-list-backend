@@ -7,7 +7,7 @@ import { Cadeira } from 'src/entities/cadeira.entity';
 export class BancoController {
   
   constructor(
-    private readonly bancoService: BancoService
+    private bancoService: BancoService
   ) {}
 
   @Post('many')
@@ -19,13 +19,13 @@ export class BancoController {
   @Post('')
   @HttpCode(200)
   async insert(@Body() banco: Banco) {
-    return await this.bancoService.save(banco);
+    return await this.bancoService.insert(banco);
   }
 
   @Put('')
   @HttpCode(200)
   async update(@Body() banco: Banco) {
-    return await this.bancoService.save(banco);
+    return await this.bancoService.update(banco);
   }
 
   @Get('')
@@ -42,8 +42,8 @@ export class BancoController {
 
   @Put('cadeira')
   @HttpCode(200)
-  async addCadeira(@Body() addCadeira: {banco: Banco, cadeira:Cadeira}) {
-    return await this.bancoService.addCadeira(addCadeira.banco, addCadeira.cadeira);
+  async add(@Body() addCadeira: {banco: Banco, cadeira:Cadeira}) {
+    return await this.bancoService.add(addCadeira.banco, addCadeira.cadeira);
   }
 
   @Delete('')

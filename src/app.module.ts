@@ -17,6 +17,9 @@ import { BancoController } from './controllers/banco.controller';
 import { BancoService } from './services/banco.service';
 import { CadeiraController } from './controllers/cadeira.controller';
 import { CadeiraService } from './services/cadeira.service';
+import { BancoRepository } from './repositories/banco.repository';
+import { CadeiraRepository } from './repositories/cadeira.repository';
+import { BancoValidator } from './validators/banco.validator';
 
 @Module({
   imports: [
@@ -52,8 +55,11 @@ import { CadeiraService } from './services/cadeira.service';
     UsuarioService,
     ListaService,
     ParticipanteService,
+    BancoRepository,
     BancoService,
+    BancoValidator,
     CadeiraService,
+    CadeiraRepository,
   ],
 })
 export class AppModule {}
