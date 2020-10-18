@@ -1,4 +1,7 @@
 import { Injectable } from "@nestjs/common";
+import { Lista } from "src/entities/lista.entity";
+import { getRepository, getConnection } from "typeorm";
+import { Participante } from "src/entities/participante.entity";
 
 @Injectable()
 export class ListaRepository{
