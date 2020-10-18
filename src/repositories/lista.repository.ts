@@ -1,9 +1,8 @@
-import { Connection, getRepository, getConnection } from "typeorm";
-import { Lista } from "src/entities/lista.entity";
-import { Participante } from "src/entities/participante.entity";
+import { Injectable } from "@nestjs/common";
 
-export class ListaService{
-
+@Injectable()
+export class ListaRepository{
+    
     async save(lista:Lista):Promise<Lista>{
         return await getRepository(Lista).save(lista);
     }

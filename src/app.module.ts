@@ -27,7 +27,7 @@ import { BancoValidator } from './validators/banco.validator';
       keepConnectionAlive: true,
       autoLoadEntities: true,
       type: 'postgres',
-      host: 'localhost',
+      host: 'docker_postgres_1',
       port: 5432,
       username: "postgres",
       password: "axlrby216",
