@@ -1,49 +1,42 @@
-import { Connection, getRepository, getConnection } from "typeorm";
+import { getRepository, getConnection } from "typeorm";
 import { Participante } from "src/entities/participante.entity";
 import { Cadeira } from "src/entities/cadeira.entity";
+import { ParticipanteRepository } from "src/repositories/participante.repository";
+import { ParticipanteValidator } from "src/validators/participante.validator";
+import { Injectable } from "@nestjs/common";
 
+@Injectable()
 export class ParticipanteService{
 
-    constructor(private connection:Connection){}
+    constructor(
+        private participanteRepository:ParticipanteRepository,
+        private participanteValidator:ParticipanteValidator
+    ){}
 
 
     async save(participante:Participante):Promise<Participante>{
-        participante = new Participante(participante);
-        return await participante.save();
+        await this.participanteValidator.validate(participante);
+        return await this.participanteRepository.save(participante);
     }
 
     async remove(id:number):Promise<Participante>{
-        let participante:Participante = await this.get(id);
-        return await participante.remove();
+        return await this.participanteRepository.remove(id);
     }
 
     async get(id:number):Promise<Participante>{
-        return await getRepository(Participante).createQueryBuilder('participante')
-        .leftJoinAndSelect("participante.dependentes", "dependentes")
-        .leftJoinAndSelect("participante.cadeiras", "cadeiras")
-        .where(`participante.id = ${id}`)
-        .getOne();
+        return await this.participanteRepository.get(id);
     }
 
     async getAll():Promise<Array<Participante>>{
-        return await getRepository(Participante).createQueryBuilder('participante')
-        .leftJoinAndSelect("participante.dependentes", "dependentes")
-        .leftJoinAndSelect("participante.cadeiras", "cadeiras")
-        .getMany();
+        return await this.participanteRepository.getAll();
     }
 
     async addDependente(participante:Participante, dependente:Participante){
-        await getConnection().createQueryBuilder()
-        .relation(Participante, "dependentes")
-        .of(participante)
-        .add(dependente);
+        return await this.participanteRepository.addDependente(participante, dependente);
     }
 
     async addCadeira(participante:Participante, cadeira:Cadeira){
-        await getConnection().createQueryBuilder()
-        .relation(Participante, "cadeiras")
-        .of(participante)
-        .add(cadeira);
+        return await this.participanteRepository.addCadeira(participante, cadeira);
     }
 
 }

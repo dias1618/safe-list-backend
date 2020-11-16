@@ -14,7 +14,7 @@ export class ListaRepository{
         return await getRepository(Lista).createQueryBuilder('lista')
         .leftJoinAndSelect("lista.participantes", "participantes")
         .leftJoinAndSelect("participantes.dependentes", "dependentes")
-        .leftJoinAndSelect("participantes.cadeiras", "cadeiras")
+        .leftJoinAndSelect("participantes.lista", "listaParticipante")
         .where(`lista.id = ${id}`)
         .getOne();
     }
@@ -22,11 +22,12 @@ export class ListaRepository{
     async getByDate(date:string):Promise<Array<Lista>>{
         return await getRepository(Lista).createQueryBuilder('lista')
         .leftJoinAndSelect("lista.participantes", "participantes")
+        .leftJoinAndSelect("participantes.dependentes", "dependentes")
         .where("lista.data BETWEEN :dataInicial AND :dataFinal", {dataInicial: this.getDataInicial(date), dataFinal: this.getDataFinal(date)})
         .getMany();
     }
 
-    getDataInicial(date:string){
+    private getDataInicial(date:string){
         let data = new Date(date);
         data.setHours(0);
         data.setMinutes(0);
@@ -35,7 +36,7 @@ export class ListaRepository{
         return data.toISOString();
     }
 
-    getDataFinal(date:string){
+    private getDataFinal(date:string){
         let data = new Date(date);
         data.setHours(24);
         data.setMinutes(59);

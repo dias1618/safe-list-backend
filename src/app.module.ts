@@ -20,6 +20,9 @@ import { CadeiraService } from './services/cadeira.service';
 import { BancoRepository } from './repositories/banco.repository';
 import { CadeiraRepository } from './repositories/cadeira.repository';
 import { BancoValidator } from './validators/banco.validator';
+import { ParticipanteValidator } from './validators/participante.validator';
+import { ParticipanteRepository } from './repositories/participante.repository';
+import { ListaRepository } from './repositories/lista.repository';
 
 @Module({
   imports: [
@@ -27,8 +30,10 @@ import { BancoValidator } from './validators/banco.validator';
       keepConnectionAlive: true,
       autoLoadEntities: true,
       type: 'postgres',
-      host: 'docker_postgres_1',
-      port: 5432,
+      //host: 'docker_postgres_1',
+      host: 'localhost',
+      //port: 5432,
+      port: 15432,
       username: "postgres",
       password: "axlrby216",
       database: "safelist",
@@ -53,6 +58,7 @@ import { BancoValidator } from './validators/banco.validator';
   providers: [
     AppService,
     UsuarioService,
+    ListaRepository,
     ListaService,
     ParticipanteService,
     BancoRepository,
@@ -60,6 +66,8 @@ import { BancoValidator } from './validators/banco.validator';
     BancoValidator,
     CadeiraService,
     CadeiraRepository,
+    ParticipanteValidator,
+    ParticipanteRepository,
   ],
 })
 export class AppModule {}
