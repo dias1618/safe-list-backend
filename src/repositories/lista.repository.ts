@@ -14,7 +14,6 @@ export class ListaRepository{
         return await getRepository(Lista).createQueryBuilder('lista')
         .leftJoinAndSelect("lista.participantes", "participantes")
         .leftJoinAndSelect("participantes.dependentes", "dependentes")
-        .leftJoinAndSelect("participantes.lista", "listaParticipante")
         .where(`lista.id = ${id}`)
         .getOne();
     }

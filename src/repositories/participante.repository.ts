@@ -27,7 +27,7 @@ export class ParticipanteRepository{
         return await getRepository(Participante).createQueryBuilder('participante')
         .leftJoinAndSelect("participante.lista", "lista")
         .where(`lista.id = ${idLista}`)
-        .andWhere(`participante.telefone = ${telefone}`)
+        .andWhere(`participante.telefone = '${telefone}'`)
         .andWhere(`participante.id != ${idParticipante}`)
         .getOne();
     }

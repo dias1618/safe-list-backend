@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, HttpException, HttpStatus, HttpCode, Query
 import { ParticipanteService } from 'src/services/participante.service';
 import { Participante } from 'src/entities/participante.entity';
 import { Cadeira } from 'src/entities/cadeira.entity';
+import { ParticipanteLista } from 'src/dtos/participante-lista.dto';
 
 @Controller('participantes')
 export class ParticipanteController {
@@ -12,14 +13,14 @@ export class ParticipanteController {
 
   @Post('')
   @HttpCode(200)
-  async insert(@Body() participante: Participante) {
-    return await this.participanteService.save(participante);
+  async insert(@Body() participanteLista: ParticipanteLista) {
+    return await this.participanteService.insert(participanteLista.participante, participanteLista.lista);
   }
 
   @Put('')
   @HttpCode(200)
-  async update(@Body() participante: Participante) {
-    return await this.participanteService.save(participante);
+  async update(@Body() participanteLista: ParticipanteLista) {
+    return await this.participanteService.update(participanteLista.participante, participanteLista.lista);
   }
 
   @Put('dependente')

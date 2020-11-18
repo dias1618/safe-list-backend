@@ -4,19 +4,44 @@ import { Cadeira } from "src/entities/cadeira.entity";
 import { ParticipanteRepository } from "src/repositories/participante.repository";
 import { ParticipanteValidator } from "src/validators/participante.validator";
 import { Injectable } from "@nestjs/common";
+import { Lista } from "src/entities/lista.entity";
+import { ListaRepository } from "src/repositories/lista.repository";
 
 @Injectable()
 export class ParticipanteService{
 
     constructor(
         private participanteRepository:ParticipanteRepository,
-        private participanteValidator:ParticipanteValidator
+        private participanteValidator:ParticipanteValidator,
+        private listaRepository:ListaRepository
     ){}
 
 
-    async save(participante:Participante):Promise<Participante>{
-        await this.participanteValidator.validate(participante);
-        return await this.participanteRepository.save(participante);
+    async insert(participante:Participante, lista:Lista):Promise<Participante>{
+        if(lista)
+            await this.participanteValidator.validarTelefoneJaExistente(participante, lista);
+        
+        let dependentes = Object.assign([], participante.dependentes);        
+        participante = await this.participanteRepository.save(participante);
+        if(lista)
+            await this.listaRepository.addParticipante(lista, participante);
+        console.log(dependentes)
+        for(var dependente of dependentes){
+            dependente = await this.insert(dependente, null);
+            await this.addDependente(participante, dependente);
+        }
+        return participante;
+    }
+
+    async update(participante:Participante, lista:Lista):Promise<Participante>{
+        if(lista)
+            await this.participanteValidator.validarTelefoneJaExistente(participante, lista);
+        
+        participante = await this.participanteRepository.save(participante);
+        if(lista)
+            await this.listaRepository.addParticipante(lista, participante);
+            
+        return participante;
     }
 
     async remove(id:number):Promise<Participante>{
