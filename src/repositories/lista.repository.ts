@@ -15,6 +15,7 @@ export class ListaRepository{
         .leftJoinAndSelect("lista.participantes", "participantes")
         .leftJoinAndSelect("participantes.dependentes", "dependentes")
         .where(`lista.id = ${id}`)
+        .orderBy('participantes.nome')
         .getOne();
     }
 

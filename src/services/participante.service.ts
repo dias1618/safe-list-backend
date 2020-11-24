@@ -25,7 +25,6 @@ export class ParticipanteService{
         participante = await this.participanteRepository.save(participante);
         if(lista)
             await this.listaRepository.addParticipante(lista, participante);
-        console.log(dependentes)
         for(var dependente of dependentes){
             dependente = await this.insert(dependente, null);
             await this.addDependente(participante, dependente);
