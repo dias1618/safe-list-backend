@@ -44,6 +44,12 @@ export class ParticipanteService{
     }
 
     async remove(id:number):Promise<Participante>{
+        let participante:Participante = await this.get(id);
+        for(let dependente of participante.dependentes){
+            await this.participanteRepository.remove(dependente.id);
+        }
+
+
         return await this.participanteRepository.remove(id);
     }
 
