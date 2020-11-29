@@ -52,4 +52,9 @@ export class ListaRepository{
         .add(participante);
     }
 
+    async delete(id:number):Promise<Lista>{
+        let lista:Lista =  await this.get(id);
+        return lista.remove();
+    }
+
 }

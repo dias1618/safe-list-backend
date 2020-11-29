@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, HttpException, HttpStatus, HttpCode, Query, Param, Put } from '@nestjs/common';
+import { Controller, Get, Post, Body, HttpException, HttpStatus, HttpCode, Query, Param, Put, Delete } from '@nestjs/common';
 import { ListaService } from 'src/services/lista.service';
 import { Lista } from 'src/entities/lista.entity';
 import { Participante } from 'src/entities/participante.entity';
@@ -38,6 +38,12 @@ export class ListaController {
   @HttpCode(200)
   async get(@Param('id') id:number) {
     return await this.listaService.get(id);
+  }
+
+  @Delete(':id')
+  @HttpCode(200)
+  async delete(@Param('id') id:number) {
+    return await this.listaService.delete(id);
   }
 
 }

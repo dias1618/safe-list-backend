@@ -25,4 +25,8 @@ export class ListaService{
         await this.addParticipante(lista, participante);
     }
 
+    async delete(id:number):Promise<Lista>{
+        return this.listaRepository.delete(id);
+    }
+
 }
