@@ -5,11 +5,12 @@ import { Cadeira } from "./cadeira.entity";
 @Entity()
 export class Participante extends BaseEntity{
 
-    constructor(data: {id?:number, nome?:string, telefone?:string}){
+    constructor(data: {id?:number, nome?:string, telefone?:string, fixo?:boolean}){
         super();
         this.id = data && data.id || 0;
         this.nome = data && data.nome || "";
         this.telefone = data && data.telefone || "";
+        this.fixo = data && data.fixo || false;
     }
 
     @PrimaryGeneratedColumn()
@@ -20,6 +21,9 @@ export class Participante extends BaseEntity{
 
     @Column("varchar", {nullable: true})
     telefone:string;
+
+    @Column("boolean", {nullable: true})
+    fixo:boolean;
 
     @ManyToOne(type => Lista, lista => lista.participantes)
     lista: Lista;
@@ -38,7 +42,8 @@ export class Participante extends BaseEntity{
         return `{
             "id": ${this.id},
             "nome": "${this.nome}",
-            "telefone": "${this.telefone}"
+            "telefone": "${this.telefone}",
+            "fixo": "${this.fixo}"
         }`
     }
 }

@@ -34,6 +34,12 @@ export class ListaController {
     return await this.listaService.getByDate(date);
   }
 
+  @Get('proximos')
+  @HttpCode(200)
+  async getProximos() {
+    return await this.listaService.getProximos();
+  }
+
   @Get(':id')
   @HttpCode(200)
   async get(@Param('id') id:number) {

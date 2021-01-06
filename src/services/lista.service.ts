@@ -25,6 +25,10 @@ export class ListaService{
         return this.listaRepository.getByDate(date);
     }
 
+    async getProximos():Promise<Array<Lista>>{
+        return this.listaRepository.getProximos();
+    }
+
     async addParticipante(lista:Lista, participante:Participante){
         await this.addParticipante(lista, participante);
     }
@@ -41,6 +45,11 @@ export class ListaService{
         }
 
         return this.listaRepository.delete(id);
+    }
+
+    async addParticipantesFixos(lista:Lista){
+        let listaAnterior:Lista = await this.listaRepository.get(lista.id-1);
+        
     }
 
 }

@@ -23,11 +23,13 @@ export class ParticipanteService{
         
         let dependentes = Object.assign([], participante.dependentes);        
         participante = await this.participanteRepository.save(participante);
+        participante.dependentes = [];
         if(lista)
             await this.listaRepository.addParticipante(lista, participante);
         for(var dependente of dependentes){
             dependente = await this.insert(dependente, null);
             await this.addDependente(participante, dependente);
+            participante.dependentes.push(dependente);
         }
         return participante;
     }

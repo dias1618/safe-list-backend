@@ -24,12 +24,29 @@ export class ListaRepository{
         .leftJoinAndSelect("lista.participantes", "participantes")
         .leftJoinAndSelect("participantes.dependentes", "dependentes")
         .where("lista.data BETWEEN :dataInicial AND :dataFinal", {dataInicial: this.getDataInicial(date), dataFinal: this.getDataFinal(date)})
+        .orderBy("lista.data")
+        .addOrderBy("lista.horaFinal")
+        .getMany();
+    }
+
+    async getProximos():Promise<Array<Lista>>{
+        let date:Date = new Date();
+        date.setHours(0);
+        date.setMinutes(0);
+        date.setSeconds(0);
+        date.setMilliseconds(0);
+        return await getRepository(Lista).createQueryBuilder('lista')
+        .leftJoinAndSelect("lista.participantes", "participantes")
+        .leftJoinAndSelect("participantes.dependentes", "dependentes")
+        .where("lista.data >= :dataInicial", {dataInicial: date.toISOString()})
+        .orderBy("lista.data")
+        .addOrderBy("lista.horaFinal")
         .getMany();
     }
 
     private getDataInicial(date:string){
         let data = new Date(date);
-        data.setHours(0);
+        data.setHours(-3);
         data.setMinutes(0);
         data.setSeconds(0);
         data.setMilliseconds(0);
@@ -38,7 +55,7 @@ export class ListaRepository{
 
     private getDataFinal(date:string){
         let data = new Date(date);
-        data.setHours(24);
+        data.setHours(20);
         data.setMinutes(59);
         data.setSeconds(59);
         data.setMilliseconds(59);
