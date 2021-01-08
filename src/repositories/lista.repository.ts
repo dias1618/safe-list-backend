@@ -41,6 +41,7 @@ export class ListaRepository{
         .where("lista.data >= :dataInicial", {dataInicial: date.toISOString()})
         .orderBy("lista.data")
         .addOrderBy("lista.horaFinal")
+        .addOrderBy("dependentes.nome")
         .getMany();
     }
 
