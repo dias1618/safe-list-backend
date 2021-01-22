@@ -18,9 +18,13 @@ export class ParticipanteService{
 
 
     async insert(participante:Participante, lista:Lista):Promise<Participante>{
-        if(lista)
+        if(lista){
             await this.participanteValidator.validarTelefoneJaExistente(participante, lista);
-        
+            await this.participanteValidator.validarNomeJaExistente(participante, lista);
+        }
+        else{
+            await this.participanteValidator.validarNomeDependenteJaExistente(participante);
+        }
         let dependentes = Object.assign([], participante.dependentes);        
         participante = await this.participanteRepository.save(participante);
         participante.dependentes = [];
@@ -37,8 +41,9 @@ export class ParticipanteService{
     async update(participante:Participante, lista:Lista):Promise<Participante>{
         if(lista)
             await this.participanteValidator.validarTelefoneJaExistente(participante, lista);
-        
+        let dependentes = Object.assign([], participante.dependentes);        
         participante = await this.participanteRepository.save(participante);
+        participante.dependentes = dependentes;
         if(lista)
             await this.listaRepository.addParticipante(lista, participante);
             

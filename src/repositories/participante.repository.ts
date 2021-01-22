@@ -32,6 +32,24 @@ export class ParticipanteRepository{
         .getOne();
     }
 
+    async verifyNome(idParticipante:number, idLista:number, nome:string):Promise<Participante>{
+        return await getRepository(Participante).createQueryBuilder('participante')
+        .leftJoinAndSelect("participante.lista", "lista")
+        .where(`lista.id = ${idLista}`)
+        .andWhere(`participante.nome = '${nome}'`)
+        .andWhere(`participante.id != ${idParticipante}`)
+        .getOne();
+    }
+
+    async verifyNomeDependente(idDependente:number, idParticipante:number, nome:string):Promise<Participante>{
+        return await getRepository(Participante).createQueryBuilder('participante')
+        .leftJoinAndSelect("participante.responsavel", "responsavel")
+        .where(`responsavel.id = ${idParticipante}`)
+        .andWhere(`participante.nome = '${nome}'`)
+        .andWhere(`participante.id != ${idDependente}`)
+        .getOne();
+    }
+
     async getAll():Promise<Array<Participante>>{
         return await getRepository(Participante).createQueryBuilder('participante')
         .leftJoinAndSelect("participante.dependentes", "dependentes")
